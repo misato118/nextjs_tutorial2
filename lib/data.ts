@@ -8,10 +8,7 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
-
-import 'dotenv/config';
-
-console.log('TEST ' + process.env.POSTGRES_HOST);
+import './envConfig.ts';
 
 export async function fetchRevenue() {
   try {
