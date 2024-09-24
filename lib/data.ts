@@ -9,6 +9,10 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 
+import 'dotenv/config';
+
+console.log('TEST ' + process.env.POSTGRES_HOST);
+
 export async function fetchRevenue() {
   try {
     // Artificially delay a response for demo purposes.
