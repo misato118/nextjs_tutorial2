@@ -65,3 +65,4 @@ Home.getLayout = (page: ReactElement) => {
   return <RootLayout>{page}</RootLayout>;
 };
 
+export default Home;
