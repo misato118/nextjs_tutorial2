@@ -1,4 +1,4 @@
-import { sql, createPool } from '@vercel/postgres';
+import { sql } from '@vercel/postgres';
 import {
   CustomerField,
   CustomersTableType,
@@ -8,11 +8,12 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
-import './envConfig';
+//import '../envConfig';
 
-const pool = createPool({
-  connectionString: process.env.POSTGRES_URL,
-});
+console.log({
+  POSTGRES_URL: process.env.POSTGRES_URL,
+  POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING
+  });
 
 export async function fetchRevenue() {
   try {
@@ -23,8 +24,6 @@ export async function fetchRevenue() {
     //await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
-
-    console.log('Data fetch completed after 3 seconds.');
 
     return data.rows;
   } catch (error) {
@@ -46,6 +45,7 @@ export async function fetchLatestInvoices() {
       ...invoice,
       amount: formatCurrency(invoice.amount),
     }));
+    
     return latestInvoices;
   } catch (error) {
     console.error('Database Error:', error);
@@ -54,14 +54,13 @@ export async function fetchLatestInvoices() {
 }
 
 export async function fetchCardData() {
-  console.log('fetchCardData');
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
-    const invoiceCountPromise = pool.sql`SELECT COUNT(*) FROM invoices`;
-    const customerCountPromise = pool.sql`SELECT COUNT(*) FROM customers`;
-    const invoiceStatusPromise = pool.sql`SELECT
+    const invoiceCountPromise = await sql`SELECT COUNT(*) FROM invoices`;
+    const customerCountPromise = await sql`SELECT COUNT(*) FROM customers`;
+    const invoiceStatusPromise = await sql`SELECT
          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
@@ -70,7 +69,7 @@ export async function fetchCardData() {
       invoiceCountPromise,
       customerCountPromise,
       invoiceStatusPromise,
-    ]);
+    ]); 
 
     const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
     const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
@@ -83,6 +82,7 @@ export async function fetchCardData() {
       totalPaidInvoices,
       totalPendingInvoices,
     };
+    
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch card data.');
@@ -95,7 +95,6 @@ export async function fetchFilteredInvoices(
   currentPage: number,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
   try {
     const invoices = await sql<InvoicesTable>`
       SELECT
@@ -139,6 +138,7 @@ export async function fetchInvoicesPages(query: string) {
   `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    
     return totalPages;
   } catch (error) {
     console.error('Database Error:', error);
@@ -164,7 +164,7 @@ export async function fetchInvoiceById(id: string) {
       amount: invoice.amount / 100,
     }));
 
-    console.log(invoice); // Invoice is an empty array []
+    //console.log(invoice); // Invoice is an empty array []
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);
@@ -183,6 +183,7 @@ export async function fetchCustomers() {
     `;
 
     const customers = data.rows;
+    
     return customers;
   } catch (err) {
     console.error('Database Error:', err);
@@ -216,6 +217,7 @@ export async function fetchFilteredCustomers(query: string) {
       total_paid: formatCurrency(customer.total_paid),
     }));
 
+    
     return customers;
   } catch (err) {
     console.error('Database Error:', err);
