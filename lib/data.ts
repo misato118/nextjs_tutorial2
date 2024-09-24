@@ -1,4 +1,4 @@
-import { sql } from '@vercel/postgres';
+import { sql, createPool } from '@vercel/postgres';
 import {
   CustomerField,
   CustomersTableType,
@@ -8,7 +8,11 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
-import './envConfig.ts';
+import './envConfig';
+
+const pool = createPool({
+  connectionString: process.env.POSTGRES_URL,
+});
 
 export async function fetchRevenue() {
   try {
@@ -50,13 +54,14 @@ export async function fetchLatestInvoices() {
 }
 
 export async function fetchCardData() {
+  console.log('fetchCardData');
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
-    const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
-    const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
-    const invoiceStatusPromise = sql`SELECT
+    const invoiceCountPromise = pool.sql`SELECT COUNT(*) FROM invoices`;
+    const customerCountPromise = pool.sql`SELECT COUNT(*) FROM customers`;
+    const invoiceStatusPromise = pool.sql`SELECT
          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
