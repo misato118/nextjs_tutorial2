@@ -1,7 +1,7 @@
 import { generateYAxis } from '../../../lib/utils';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 //import { lusitana } from '../fonts';
-import Lusitana from '../fonts';
+import { lusitana } from '../../../lib/fonts';
 //import { fetchRevenue } from '../../../lib/data';
 import { Revenue } from '@/lib/definitions';
 //import { Revenue } from '@/pages/lib/definitions';
@@ -27,7 +27,7 @@ export default function RevenueChart({ rev }: { rev: Revenue[] }) {
 
   return (
     <div className="w-full md:col-span-4">
-      <h2 className={`${Lusitana.className} mb-4 text-xl md:text-2xl`}>
+      <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Recent Revenue
       </h2>
       {/* NOTE: Uncomment this code in Chapter 7 */}
