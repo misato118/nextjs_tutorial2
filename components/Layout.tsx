@@ -1,4 +1,4 @@
-import { inter } from '../lib/ui/fonts';
+import { inter } from '../pages/ui/fonts';
 
 export default function RootLayout({
   children,

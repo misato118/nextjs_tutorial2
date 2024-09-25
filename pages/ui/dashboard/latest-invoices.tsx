@@ -2,11 +2,12 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { lusitana } from '../fonts';
-import { fetchLatestInvoices } from '../../data';
-//import { LatestInvoice } from '@/pages/lib/definitions';
+//import { fetchLatestInvoices } from '../../../lib/data';
+import { LatestInvoice } from '../../../lib/definitions';
 
-export default async function LatestInvoices() {
-  const latestInvoices = await fetchLatestInvoices();
+export default function LatestInvoices({ inv }: { inv: LatestInvoice[] }) {
+  //const latestInvoices = await fetchLatestInvoices();
+  const latestInvoices = inv;
 
   return (
     <div className="flex w-full flex-col md:col-span-4">

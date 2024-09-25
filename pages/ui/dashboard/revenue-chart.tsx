@@ -1,7 +1,8 @@
-import { generateYAxis } from '../../utils';
+import { generateYAxis } from '../../../lib/utils';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '../fonts';
-import { fetchRevenue } from '../../data';
+//import { fetchRevenue } from '../../../lib/data';
+import { Revenue } from '@/lib/definitions';
 //import { Revenue } from '@/pages/lib/definitions';
 
 // This component is representational only.
@@ -10,8 +11,9 @@ import { fetchRevenue } from '../../data';
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-export default async function RevenueChart() {
-  const revenue = await fetchRevenue(); // Fetch data inside the component
+export default function RevenueChart({ rev }: { rev: Revenue[] }) {
+  //const revenue = await fetchRevenue(); // Fetch data inside the component
+  const revenue = rev;
 
   const chartHeight = 350;
   // NOTE: Uncomment this code in Chapter 7
