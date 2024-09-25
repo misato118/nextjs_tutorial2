@@ -7,6 +7,7 @@ import { lusitana } from '../../lib/fonts';
 //import { fetchRevenue, fetchLatestInvoices, fetchCardData } from '@/pages/lib/data';
 import { fetchLatestInvoices, fetchCardData, fetchRevenue } from '../..//lib/data';
 import DashboardLayout from '@/components/DashboardLayout';
+import RootLayout from '@/components/Layout';
 import { Suspense } from 'react';
 import { LatestInvoicesSkeleton, RevenueChartSkeleton, CardsSkeleton } from '../../ui/skeletons';
 import Card from '../../ui/dashboard/cards';
@@ -73,8 +74,22 @@ export default function Dashboard({
   );
 };
 
+/*
 Dashboard.getLayout = (page: ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  return (
+    <RootLayout>
+      <DashboardLayout>{page}</DashboardLayout>
+    </RootLayout>
+  );
 };
+*/
+
+Dashboard.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <RootLayout>
+      <DashboardLayout>{page}</DashboardLayout>
+    </RootLayout>
+  );
+}
 
 //export default Dashboard;

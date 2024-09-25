@@ -2,6 +2,7 @@ import Image from "next/image";
 import RootLayout from '@/components/Layout';
 import type { ReactElement } from 'react'
 import Link from 'next/link';
+import { NextPageWithLayout } from "./_app";
 //import localFont from "next/font/local";
 
 /*
@@ -17,7 +18,7 @@ const geistMono = localFont({
 });
 */
 
-const Home = () => {
+const Home: NextPageWithLayout = () => {
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
@@ -61,8 +62,14 @@ const Home = () => {
   );
 }
 
+/*
 Home.getLayout = (page: ReactElement) => {
   return <RootLayout>{page}</RootLayout>;
 };
+*/
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return <RootLayout>{page}</RootLayout>;
+}
 
 export default Home;
