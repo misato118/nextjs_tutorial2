@@ -7,8 +7,8 @@ export default function RootLayout({
 }) {
   return (
     <div className={`${inter.className} antialiased`}>{children}</div>
-
   );
+
 }
 
 {/*

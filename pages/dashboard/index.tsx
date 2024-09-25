@@ -11,6 +11,7 @@ import RootLayout from '@/components/Layout';
 import { Suspense } from 'react';
 import { LatestInvoicesSkeleton, RevenueChartSkeleton, CardsSkeleton } from '../../ui/skeletons';
 import Card from '../../ui/dashboard/cards';
+import { NextPageWithLayout } from "../_app";
 
 type CardData = {
   totalPaidInvoices: string
@@ -40,10 +41,13 @@ export const getServerSideProps = (async () => {
   return { props: { card, revenue, invoice } }
 }) satisfies GetServerSideProps<{ card: CardData, revenue: Revenue[], invoice: LatestInvoice[] }>
 
-export default function Dashboard({
-  card, revenue, invoice
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-//const Dashboard = ({ card, revenue, invoice }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+
+
+//export default function Dashboard({
+  //card, revenue, invoice
+//}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+
+const Dashboard: NextPageWithLayout<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ card, revenue, invoice }: { card: CardData, revenue: Revenue[], invoice: LatestInvoice[] }) => {
   return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
@@ -92,4 +96,4 @@ Dashboard.getLayout = function getLayout(page: ReactElement) {
   );
 }
 
-//export default Dashboard;
+export default Dashboard;

@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps ) {
 }
 */
  
-export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
  
