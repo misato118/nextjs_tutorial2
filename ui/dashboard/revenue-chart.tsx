@@ -1,7 +1,7 @@
-import { generateYAxis } from '../../../lib/utils';
+import { generateYAxis } from '../../lib/utils';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 //import { lusitana } from '../fonts';
-import { lusitana } from '../../../lib/fonts';
+import { lusitana } from '../../lib/fonts';
 //import { fetchRevenue } from '../../../lib/data';
 import { Revenue } from '@/lib/definitions';
 //import { Revenue } from '@/pages/lib/definitions';

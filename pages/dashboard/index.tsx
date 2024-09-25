@@ -1,15 +1,15 @@
 import type { ReactElement } from 'react'
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 //import CardWrapper from '../ui/dashboard/cards';
-import RevenueChart from '../ui/dashboard/revenue-chart';
-import LatestInvoices from '../ui/dashboard/latest-invoices';
+import RevenueChart from '../../ui/dashboard/revenue-chart';
+import LatestInvoices from '../../ui/dashboard/latest-invoices';
 import { lusitana } from '../../lib/fonts';
 //import { fetchRevenue, fetchLatestInvoices, fetchCardData } from '@/pages/lib/data';
 import { fetchLatestInvoices, fetchCardData, fetchRevenue } from '../..//lib/data';
 import DashboardLayout from '@/components/DashboardLayout';
 import { Suspense } from 'react';
-import { LatestInvoicesSkeleton, RevenueChartSkeleton, CardsSkeleton } from '../ui/skeletons';
-import Card from '../ui/dashboard/cards';
+import { LatestInvoicesSkeleton, RevenueChartSkeleton, CardsSkeleton } from '../../ui/skeletons';
+import Card from '../../ui/dashboard/cards';
 
 type CardData = {
   totalPaidInvoices: string
