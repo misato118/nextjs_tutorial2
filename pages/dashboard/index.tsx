@@ -40,11 +40,9 @@ export const getServerSideProps = (async () => {
 }) satisfies GetServerSideProps<{ card: CardData, revenue: Revenue[], invoice: LatestInvoice[] }>
 
 export default function Dashboard({
-  card,
-  revenue,
-  invoice
-}: InferGetServerSidePropsType<typeof getServerSideProps>){
-
+  card, revenue, invoice
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+//const Dashboard = ({ card, revenue, invoice }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <main>
       <h1 className={`${Lusitana.className} mb-4 text-xl md:text-2xl`}>
@@ -75,6 +73,8 @@ export default function Dashboard({
   );
 };
 
-Dashboard.getLayout = (page: ReactElement) => (
-  <DashboardLayout>{page}</DashboardLayout>
-);
+Dashboard.getLayout = (page: ReactElement) => {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};
+
+//export default Dashboard;
