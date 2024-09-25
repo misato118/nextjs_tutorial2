@@ -3,7 +3,7 @@ import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 //import CardWrapper from '../ui/dashboard/cards';
 import RevenueChart from '../ui/dashboard/revenue-chart';
 import LatestInvoices from '../ui/dashboard/latest-invoices';
-import { lusitana } from '../ui/fonts';
+import Lusitana from '../ui/fonts';
 //import { fetchRevenue, fetchLatestInvoices, fetchCardData } from '@/pages/lib/data';
 import { fetchLatestInvoices, fetchCardData, fetchRevenue } from '../..//lib/data';
 import DashboardLayout from '@/components/DashboardLayout';
@@ -47,7 +47,7 @@ export default function Dashboard({
 
   return (
     <main>
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+      <h1 className={`${Lusitana.className} mb-4 text-xl md:text-2xl`}>
         Dashboard
       </h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
