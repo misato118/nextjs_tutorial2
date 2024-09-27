@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
 import DashboardLayout from '@/components/DashboardLayout';
-//import Pagination from '../../../ui/invoices/pagination';
+import Pagination from '../../../ui/invoices/pagination';
 import Search from '../../../ui/search';
 //import Table from '../../../ui/invoices/table';
 import { CreateInvoice } from '../../../ui/invoices/buttons';
@@ -9,7 +9,7 @@ import { InvoicesTableSkeleton } from '../../../ui/skeletons';
 import { Suspense } from 'react';
 import { NextPageWithLayout } from "../../_app";
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import { fetchFilteredInvoices } from '../../../lib/data';
+import { fetchFilteredInvoices, fetchInvoicesPages } from '../../../lib/data';
 //import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { encode } from 'querystring'
 import Image from 'next/image';
@@ -32,33 +32,20 @@ export const getServerSideProps = (async (context) => {
   const encodedQuery = encode(context.query);
   const params = new URLSearchParams(encodedQuery);
 
-  const query = params.get('query') + '';
+  const query = params.get('query') || '';
   const page = Number(params.get('page')) ? Number(params.get('page')) : 1;
+
+  const totalPages = await fetchInvoicesPages(query);
 
   const invoices: FilteredInvoices[] = await fetchFilteredInvoices(query, page);
 
-  return { props: { invoices: JSON.parse(JSON.stringify(invoices)), query, page } }
-}) satisfies GetServerSideProps<{ invoices: FilteredInvoices[], query: string, page: number }>
+  return { props: { invoices: JSON.parse(JSON.stringify(invoices)), query, page, totalPages } }
+}) satisfies GetServerSideProps<{ invoices: FilteredInvoices[], query: string, page: number, totalPages: number }>
 
-
-
-//export default function Invoices()
-/*
-({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
-})
-*/
-const Invoices: NextPageWithLayout<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ invoices, query, page }: { invoices: FilteredInvoices[], query: string, page: number }) => 
+const Invoices: NextPageWithLayout<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  invoices, query, page, totalPages
+}: { invoices: FilteredInvoices[], query: string, page: number, totalPages: number }) => 
 {
-  //const query = searchParams?.query || '';
-  //const currentPage = Number(searchParams?.page) || 1;
-  //const totalPages = await fetchInvoicesPages(query);
-
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -180,12 +167,11 @@ const Invoices: NextPageWithLayout<InferGetServerSidePropsType<typeof getServerS
       </Suspense>
 
       <div className="mt-5 flex w-full justify-center">
-        {/* <Pagination totalPages={totalPages} /> */}
+        <Pagination totalPages={totalPages} />
       </div>
     </div>
   );
 }
-
 
 Invoices.getLayout = function getLayout(page: ReactElement) {
   return (

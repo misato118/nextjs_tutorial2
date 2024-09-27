@@ -41,12 +41,6 @@ export const getServerSideProps = (async () => {
   return { props: { card, revenue, invoice } }
 }) satisfies GetServerSideProps<{ card: CardData, revenue: Revenue[], invoice: LatestInvoice[] }>
 
-
-
-//export default function Dashboard({
-  //card, revenue, invoice
-//}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-
 const Dashboard: NextPageWithLayout<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ card, revenue, invoice }: { card: CardData, revenue: Revenue[], invoice: LatestInvoice[] }) => {
   return (
     <main>
